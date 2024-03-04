@@ -1,12 +1,15 @@
 # 3 - Equipo Azul, Rojo y Morado
 
-La práctica de hoy se presenta con un contenedor que contiene un servidor dockerizado (https://github.com/noelruault/cybersecurity-playground/tree/main/1).
+La práctica de hoy se presenta con un contenedor que contiene un servidor dockerizado (https://github.com/noelruault/cybersecurity-playground/tree/main/3).
 
 1. Encender contenedor
 
 ```bash
 docker build . -t phpserver
-docker run -it -p 80:80 phpserver
+docker run -d -p 80:80 phpserver
+
+# (Optional) Tail the logs
+docker logs -f $(docker ps | grep phpserver | awk '{print $1}')
 ```
 
 2. Comprobar que puertos estan abiertos
@@ -36,7 +39,7 @@ Nmap done: 1 IP address (0 hosts up) scanned in 3.05 seconds
 Por lo tanto, lo más fácil en este caso es hacer un `nmap -p- localhost -v` antes y después de iniciar el contenedor (`docker run`) y ver qué cambios hay en los puertos del host, para comprobar si alguno de los puertos que ejecuta el contenedor está en uso y/o es accesible.
 
 3. Una vez accedas al servidor, descubre cómo acceder a la página de subidas, que te permitirá subir ficheros al servidor.
-4. Desde el host: Sube un fichero al servidor que permita una reverse shell (https://github.com/noelruault/cybersecurity-playground/blob/main/1/shells/rshell.php). Existen alternativas más extendidas como [pentestmonkey](https://github.com/pentestmonkey/php-reverse-shell) y [p0wny-shell](https://github.com/flozz/p0wny-shell).
+4. Desde el host: Sube un fichero al servidor que permita una reverse shell (https://github.com/noelruault/cybersecurity-playground/blob/main/3/shells/rshell.php). Existen alternativas más extendidas como [pentestmonkey](https://github.com/pentestmonkey/php-reverse-shell) y [p0wny-shell](https://github.com/flozz/p0wny-shell).
 5. Encontrarás un error, falta un directorio en el sistema, probablemente eliminado cuando se eliminó la funcionalidad de subidas, pero puedes solucionar dicho problema usando la funcionalidad de "Remote Code Execution".
 6. host: Ejecuta el comando netcat que esperará una conexión desde el objetivo
     - `nc.exe -l -p 1234` | `ncat -l -p 1234` |   `nc -l -p 1234`
